@@ -10,7 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.base import DeserializationError
 from django.db import IntegrityError, connections, models, router, transaction
 from django.db.models.deletion import Collector
-from django.db.models.functions import Cast
 from django.db.models.expressions import RawSQL
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
@@ -135,7 +134,6 @@ class VersionQuerySet(models.QuerySet):
 
     def get_for_object(self, obj, model_db=None):
         return self.get_for_object_reference(obj.__class__, obj.pk, model_db=model_db)
-
 
     def get_deleted(self, model, model_db=None):
         # Try to do a faster JOIN.
