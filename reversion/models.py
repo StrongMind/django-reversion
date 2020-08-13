@@ -143,14 +143,14 @@ class VersionQuerySet(models.QuerySet):
             content_type = _get_content_type(model, self.db)
             subquery = SubquerySQL(
                 """
-                SELECT MAX(V.{id})
+                (SELECT MAX(V.{id})
                 FROM {version} V
                 LEFT JOIN {model} ON V.{object_id} = CAST({model}.{model_id} as {str})
                 WHERE
                     V.{db} = %s AND
                     V.{content_type_id} = %s AND
                     {model}.{model_id} IS NULL
-                GROUP BY V.{object_id}
+                GROUP BY V.{object_id})
                 """.format(
                     id=connection.ops.quote_name("id"),
                     version=connection.ops.quote_name(Version._meta.db_table),
